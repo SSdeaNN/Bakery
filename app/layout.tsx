@@ -3,6 +3,10 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { ShoppingCart, Menu } from 'lucide-react';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
+
+
+const BreadcrumbDynamic = dynamic(() => import('@/components/ui/BreadcrumbDynamic'), { ssr: false });
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -18,6 +22,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es">
+      <head>
+        <meta name="format-detection" content="telephone=no, date=no, email=no, address=no" />
+      </head>
       <body className={inter.className}>
         <header className="fixed w-full z-50 bg-background/80 backdrop-blur-sm">
           <nav className="max-w-6xl mx-auto px-4 py-4">
@@ -25,7 +32,6 @@ export default function RootLayout({
               <Link href="/" className="text-2xl font-bold">
                 Dulce Encanto
               </Link>
-              
               <div className="hidden md:flex items-center space-x-8">
                 <Link href="/categorias" className="hover:text-primary">
                   Categorías
@@ -49,7 +55,6 @@ export default function RootLayout({
                   Contacto
                 </Link>
               </div>
-
               <div className="flex items-center space-x-4">
                 <Link href="/carrito" className="p-2 hover:bg-muted rounded-full">
                   <ShoppingCart className="h-6 w-6" />
@@ -62,7 +67,10 @@ export default function RootLayout({
           </nav>
         </header>
 
-        {children}
+        <main className="pt-16">
+          <BreadcrumbDynamic />
+          {children}
+        </main>
 
         <footer className="bg-muted py-12">
           <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -75,9 +83,21 @@ export default function RootLayout({
             <div>
               <h4 className="font-semibold mb-4">Enlaces Rápidos</h4>
               <ul className="space-y-2">
-                <li><Link href="/categorias" className="text-muted-foreground hover:text-primary">Categorías</Link></li>
-                <li><Link href="/servicios" className="text-muted-foreground hover:text-primary">Servicios</Link></li>
-                <li><Link href="/blog" className="text-muted-foreground hover:text-primary">Blog</Link></li>
+                <li>
+                  <Link href="/categorias" className="text-muted-foreground hover:text-primary">
+                    Categorías
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/servicios" className="text-muted-foreground hover:text-primary">
+                    Servicios
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/blog" className="text-muted-foreground hover:text-primary">
+                    Blog
+                  </Link>
+                </li>
               </ul>
             </div>
             <div>
